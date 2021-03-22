@@ -20,7 +20,10 @@ cp .env.example .env
 git clone http://github.com/diegorodrigo90/guacamole-docker-compose
  ```
  - Go to https://localhost ( or any server your set in .env)
+ 
  `user: guacadmin`
+ 
 `password: guacadmin`
+
 
 **Comes with two factor authentication enabled, to disable change TOTP_ENABLED: "true" to TOTP_ENABLED: "false" in docker-compose.yml.**
