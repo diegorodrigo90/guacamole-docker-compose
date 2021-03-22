@@ -4,7 +4,7 @@ A Docker Container for Apache Guacamole, a client-less remote desktop gateway. I
 ### How to Use
 - Clone this repo
 ```
-git clone http://github.com/diegorodrigo90/guacamole-docker-compose
+git clone https://github.com/diegorodrigo90/guacamole-docker-compose.git
  ```
 ```shell
 cd guacamole-docker-compose
