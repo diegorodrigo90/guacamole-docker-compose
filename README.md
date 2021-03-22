@@ -17,7 +17,7 @@ cp .env.example .env
 - Run the containers (make sure that port 80 and 443 is not in use).
  
 ```shell
-git clone http://github.com/diegorodrigo90/guacamole-docker-compose
+docker-compose up -d --build
  ```
  - Go to https://localhost ( or any server your set in .env)
  
