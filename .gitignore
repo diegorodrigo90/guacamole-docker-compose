@@ -1,0 +1,6 @@
+/data/*
+/logs/
+.env
+*.key
+*.pem
+*.crt

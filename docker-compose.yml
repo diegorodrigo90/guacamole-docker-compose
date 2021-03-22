@@ -1,0 +1,70 @@
+version: "3"
+
+networks: 
+  guacamole-network:
+
+services:
+  
+  init-guacamole-database:
+    image: guacamole/guacamole:latest
+    command:
+      [ "/bin/sh", "-c", "test -e /init/initdb.sql && echo 'init file already exists' || /opt/guacamole/bin/initdb.sh --postgres > /init/initdb.sql" ]
+    volumes:
+      - ./data/init:/init
+    networks:
+      - guacamole-network
+
+  postgres:
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - ./data/init:/docker-entrypoint-initdb.d
+      - ./data/database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:_guacamole}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_USER:_guacamole}
+    depends_on:
+      - init-guacamole-database
+    networks:
+      - guacamole-network
+
+  guacd:
+    image: guacamole/guacd:latest
+    restart: unless-stopped
+    networks:
+      - guacamole-network
+
+  guacamole:
+    image: guacamole/guacamole:latest
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    environment:
+      # enable two factor authentication
+      TOTP_ENABLED: "true"
+      GUACD_HOSTNAME: guacd
+      POSTGRES_HOSTNAME: postgres
+      POSTGRES_DATABASE: ${POSTGRES_USER:_guacamole}
+      POSTGRES_USER: ${POSTGRES_DATABASE:_guacamole}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      - postgres
+      - guacd
+    networks:
+      - guacamole-network
+
+  proxy:
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    restart: unless-stopped
+    volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - ./config/certs:/etc/certs/
+    depends_on:
+      - guacamole
+    networks:
+      - guacamole-network
