@@ -41,7 +41,7 @@ services:
       - 8080:8080
     environment:
       # enable two factor authentication
-      TOTP_ENABLED: "true"
+      TOTP_ENABLED: ${TWO_FACTOR_AUTH}
       GUACD_HOSTNAME: guacd
       POSTGRES_HOSTNAME: postgres
       POSTGRES_USER: ${POSTGRES_USER}

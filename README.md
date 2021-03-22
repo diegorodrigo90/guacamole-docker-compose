@@ -28,4 +28,4 @@ git clone http://github.com/diegorodrigo90/guacamole-docker-compose
  `user: guacadmin`
 `password: guacadmin`
 
-**Comes with two factor authentication enabled, to disable change TOTP_ENABLED: "true" to TOTP_ENABLED: "false" in docker-compose.yml.**
+**Comes with two factor authentication enabled, to disable change TTWO_FACTOR_AUTH to false in .env**
