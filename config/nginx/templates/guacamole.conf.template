@@ -21,5 +21,4 @@ server {
 		# set home path for guacamole as root
         proxy_cookie_path /guacamole/ /;
     }
-
 }
